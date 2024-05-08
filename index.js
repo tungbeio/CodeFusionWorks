@@ -1,34 +1,16 @@
-function minWindowSubstring(s, t) {
-  const map = new Map();
-  for (const char of t) {
-    map.set(char, (map.get(char) || 0) + 1);
-  }
-  let required = map.size;
-  let left = 0;
-  let right = 0;
-  let minLen = Infinity;
-  let substrStart = 0;
-  while (right < s.length) {
-    const char = s[right];
-    if (map.has(char)) {
-      map.set(char, map.get(char) - 1);
-      if (map.get(char) === 0) required--;
+const radixSort = (arr) => {
+  const getDigit = (num, place) =>
+    Math.floor(Math.abs(num) / Math.pow(10, place)) % 10;
+  const digitCount = (num) =>
+    num === 0 ? 1 : Math.floor(Math.log10(Math.abs(num))) + 1;
+  const mostDigits = (arr) => Math.max(...arr.map((num) => digitCount(num)));
+  const maxDigits = mostDigits(arr);
+  for (let k = 0; k < maxDigits; k++) {
+    let digitBuckets = Array.from({ length: 10 }, () => []);
+    for (let i = 0; i < arr.length; i++) {
+      digitBuckets[getDigit(arr[i], k)].push(arr[i]);
     }
-    while (required === 0) {
-      if (right - left + 1 < minLen) {
-        minLen = right - left + 1;
-        substrStart = left;
-      }
-      const leftChar = s[left];
-      if (map.has(leftChar)) {
-        map.set(leftChar, map.get(leftChar) + 1);
-        if (map.get(leftChar) > 0) required++;
-      }
-      left++;
-    }
-    right++;
+    arr = [].concat(...digitBuckets);
   }
-  return minLen === Infinity
-    ? ""
-    : s.substring(substrStart, substrStart + minLen);
-}
+  return arr;
+};
