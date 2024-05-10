@@ -1,16 +1,28 @@
-const radixSort = (arr) => {
-  const getDigit = (num, place) =>
-    Math.floor(Math.abs(num) / Math.pow(10, place)) % 10;
-  const digitCount = (num) =>
-    num === 0 ? 1 : Math.floor(Math.log10(Math.abs(num))) + 1;
-  const mostDigits = (arr) => Math.max(...arr.map((num) => digitCount(num)));
-  const maxDigits = mostDigits(arr);
-  for (let k = 0; k < maxDigits; k++) {
-    let digitBuckets = Array.from({ length: 10 }, () => []);
-    for (let i = 0; i < arr.length; i++) {
-      digitBuckets[getDigit(arr[i], k)].push(arr[i]);
-    }
-    arr = [].concat(...digitBuckets);
+function reorderList(head) {
+  if (!head || !head.next) return;
+  let slow = head;
+  let fast = head;
+  while (fast.next && fast.next.next) {
+    slow = slow.next;
+    fast = fast.next.next;
   }
-  return arr;
-};
+  let prev = null;
+  let curr = slow.next;
+  slow.next = null;
+  while (curr) {
+    const next = curr.next;
+    curr.next = prev;
+    prev = curr;
+    curr = next;
+  }
+  let first = head;
+  let second = prev;
+  while (second.next) {
+    const next = first.next;
+    first.next = second;
+    first = next;
+    const next2 = second.next;
+    second.next = first;
+    second = next2;
+  }
+}
