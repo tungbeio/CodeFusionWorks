@@ -1,10 +1,6 @@
-function hasCycle(head) {
-  let slow = head;
-  let fast = head;
-  while (fast && fast.next) {
-    slow = slow.next;
-    fast = fast.next.next;
-    if (slow === fast) return true;
+const gcd = (a, b) => {
+  if (b === 0) {
+    return a;
   }
-  return false;
-}
+  return gcd(b, a % b);
+};
