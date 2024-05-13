@@ -1,6 +1,4 @@
-const gcd = (a, b) => {
-  if (b === 0) {
-    return a;
-  }
-  return gcd(b, a % b);
-};
+function findKthLargest(nums, k) {
+  nums.sort((a, b) => b - a);
+  return nums[k - 1];
+}
