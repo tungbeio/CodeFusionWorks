@@ -1,10 +1,17 @@
-function findTheDifference(s, t) {
-  let result = 0;
-  for (const char of s) {
-    result ^= char.charCodeAt(0);
+function levelOrder(root) {
+  if (!root) return [];
+  const result = [];
+  const queue = [root];
+  while (queue.length) {
+    const levelSize = queue.length;
+    const currentLevel = [];
+    for (let i = 0; i < levelSize; i++) {
+      const node = queue.shift();
+      currentLevel.push(node.val);
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    }
+    result.push(currentLevel);
   }
-  for (const char of t) {
-    result ^= char.charCodeAt(0);
-  }
-  return String.fromCharCode(result);
+  return result;
 }
